@@ -1,8 +1,19 @@
-moves = open("./9-test.txt").read().splitlines()
+moves = open("./9-data.txt").read().splitlines()
 
-body = ["49/0", "49/0", "49/0", "49/0", "49/0", "49/0", "49/0", "49/0", "49/0", "49/0"]
+body = [
+    "19/13",
+    "19/13",
+    "19/13",
+    "19/13",
+    "19/13",
+    "19/13",
+    "19/13",
+    "19/13",
+    "19/13",
+    "19/13",
+]
 
-spaces_landed = {"49/0"}
+spaces_landed = {"19/13"}
 
 head_x = 0
 head_y = 49
@@ -11,7 +22,7 @@ counter = 0
 
 
 def print_grid():
-    grid_size = 50
+    grid_size = 25
     grid_row = ["." for _ in range(grid_size)]
     grid = [grid_row.copy() for _ in range(grid_size)]
 
@@ -47,12 +58,16 @@ def advance_snake(leader_index, follower_index):
         follower_y -= 1
 
     # head is 2 above and left
-    elif leader_y + 2 == follower_y and leader_x + 1 == follower_x:
+    elif leader_y + 2 == follower_y and (
+        leader_x + 1 == follower_x or leader_x + 2 == follower_x
+    ):
         follower_y -= 1
         follower_x -= 1
 
     # head is 2 above and right
-    elif leader_y + 2 == follower_y and leader_x - 1 == follower_x:
+    elif leader_y + 2 == follower_y and (
+        leader_x - 1 == follower_x or leader_x - 2 == follower_x
+    ):
         follower_y -= 1
         follower_x += 1
 
@@ -61,12 +76,16 @@ def advance_snake(leader_index, follower_index):
         follower_y += 1
 
     # head is 2 below and left
-    elif leader_y - 2 == follower_y and leader_x + 1 == follower_x:
+    elif leader_y - 2 == follower_y and (
+        leader_x + 1 == follower_x or leader_x + 2 == follower_x
+    ):
         follower_y += 1
         follower_x -= 1
 
     # head is 2 below and right
-    elif leader_y - 2 == follower_y and leader_x - 1 == follower_x:
+    elif leader_y - 2 == follower_y and (
+        leader_x - 1 == follower_x or leader_x - 2 == follower_x
+    ):
         follower_y += 1
         follower_x += 1
 
@@ -75,12 +94,16 @@ def advance_snake(leader_index, follower_index):
         follower_x += 1
 
     # head is 2 right and above
-    elif leader_x - 2 == follower_x and leader_y + 1 == follower_y:
+    elif leader_x - 2 == follower_x and (
+        leader_y + 1 == follower_y or leader_y + 2 == follower_y
+    ):
         follower_x += 1
         follower_y -= 1
 
     # head is 2 right and below
-    elif leader_x - 2 == follower_x and leader_y - 1 == follower_y:
+    elif leader_x - 2 == follower_x and (
+        leader_y - 1 == follower_y or leader_y - 2 == follower_y
+    ):
         follower_x += 1
         follower_y += 1
 
@@ -89,12 +112,16 @@ def advance_snake(leader_index, follower_index):
         follower_x -= 1
 
     # head is 2 left and above
-    elif leader_x + 2 == follower_x and leader_y + 1 == follower_y:
+    elif leader_x + 2 == follower_x and (
+        leader_y + 1 == follower_y or leader_y + 2 == follower_y
+    ):
         follower_x -= 1
         follower_y -= 1
 
     # head is 2 left and below
-    elif leader_x + 2 == follower_x and leader_y - 1 == follower_y:
+    elif leader_x + 2 == follower_x and (
+        leader_y - 1 == follower_y or leader_y - 2 == follower_y
+    ):
         follower_x -= 1
         follower_y += 1
 
@@ -122,7 +149,7 @@ for move in moves:
         elif direction == "R":
             head_x += 1
 
-        print_grid()
+        # print_grid()
 
         body[0] = f"{head_y}/{head_x}"
 
@@ -131,7 +158,7 @@ for move in moves:
             leader_index = part - 1
             follower_index = part
             body[part] = advance_snake(leader_index, follower_index)
-            print_grid()
+            # print_grid()
 
         count -= 1
 
