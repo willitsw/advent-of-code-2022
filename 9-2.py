@@ -1,10 +1,36 @@
 moves = open("./9-test.txt").read().splitlines()
 
-body = ["0/0", "0/0", "0/0", "0/0", "0/0", "0/0", "0/0", "0/0", "0/0", "0/0"]
+body = ["49/0", "49/0", "49/0", "49/0", "49/0", "49/0", "49/0", "49/0", "49/0", "49/0"]
 
-spaces_landed = {"0/0"}
+spaces_landed = {"49/0"}
+
+head_x = 0
+head_y = 49
 
 counter = 0
+
+
+def print_grid():
+    grid_size = 50
+    grid_row = ["." for _ in range(grid_size)]
+    grid = [grid_row.copy() for _ in range(grid_size)]
+
+    grid[head_y][head_x] = "H"
+
+    for part in range(1, len(body)):
+        [y, x] = body[part].split("/")
+        y = int(y)
+        x = int(x)
+        grid[y][x] = part
+
+    print("----")
+    print("----")
+    print(f"counter: {counter}")
+    for row in grid:
+        rendered = ""
+        for char in row:
+            rendered += str(char)
+        print(rendered)
 
 
 def advance_snake(leader_index, follower_index):
@@ -96,6 +122,8 @@ for move in moves:
         elif direction == "R":
             head_x += 1
 
+        print_grid()
+
         body[0] = f"{head_y}/{head_x}"
 
         # move tail
@@ -103,6 +131,7 @@ for move in moves:
             leader_index = part - 1
             follower_index = part
             body[part] = advance_snake(leader_index, follower_index)
+            print_grid()
 
         count -= 1
 
